@@ -1,0 +1,497 @@
+
+trafficSignal.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  0000035e  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000002ea  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000009  00800100  00800100  0000035e  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  0000035e  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000390  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000050  00000000  00000000  000003d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000009fc  00000000  00000000  00000420  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000870  00000000  00000000  00000e1c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000003fa  00000000  00000000  0000168c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000090  00000000  00000000  00001a88  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000004c7  00000000  00000000  00001b18  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000096  00000000  00000000  00001fdf  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000040  00000000  00000000  00002075  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	45 c0       	rjmp	.+138    	; 0x8c <__ctors_end>
+   2:	00 00       	nop
+   4:	53 c0       	rjmp	.+166    	; 0xac <__bad_interrupt>
+   6:	00 00       	nop
+   8:	51 c0       	rjmp	.+162    	; 0xac <__bad_interrupt>
+   a:	00 00       	nop
+   c:	4f c0       	rjmp	.+158    	; 0xac <__bad_interrupt>
+   e:	00 00       	nop
+  10:	4d c0       	rjmp	.+154    	; 0xac <__bad_interrupt>
+  12:	00 00       	nop
+  14:	4b c0       	rjmp	.+150    	; 0xac <__bad_interrupt>
+  16:	00 00       	nop
+  18:	49 c0       	rjmp	.+146    	; 0xac <__bad_interrupt>
+  1a:	00 00       	nop
+  1c:	47 c0       	rjmp	.+142    	; 0xac <__bad_interrupt>
+  1e:	00 00       	nop
+  20:	45 c0       	rjmp	.+138    	; 0xac <__bad_interrupt>
+  22:	00 00       	nop
+  24:	43 c0       	rjmp	.+134    	; 0xac <__bad_interrupt>
+  26:	00 00       	nop
+  28:	41 c0       	rjmp	.+130    	; 0xac <__bad_interrupt>
+  2a:	00 00       	nop
+  2c:	3f c0       	rjmp	.+126    	; 0xac <__bad_interrupt>
+  2e:	00 00       	nop
+  30:	3d c0       	rjmp	.+122    	; 0xac <__bad_interrupt>
+  32:	00 00       	nop
+  34:	3b c0       	rjmp	.+118    	; 0xac <__bad_interrupt>
+  36:	00 00       	nop
+  38:	39 c0       	rjmp	.+114    	; 0xac <__bad_interrupt>
+  3a:	00 00       	nop
+  3c:	37 c0       	rjmp	.+110    	; 0xac <__bad_interrupt>
+  3e:	00 00       	nop
+  40:	35 c0       	rjmp	.+106    	; 0xac <__bad_interrupt>
+  42:	00 00       	nop
+  44:	33 c0       	rjmp	.+102    	; 0xac <__bad_interrupt>
+  46:	00 00       	nop
+  48:	31 c0       	rjmp	.+98     	; 0xac <__bad_interrupt>
+  4a:	00 00       	nop
+  4c:	2f c0       	rjmp	.+94     	; 0xac <__bad_interrupt>
+  4e:	00 00       	nop
+  50:	2d c0       	rjmp	.+90     	; 0xac <__bad_interrupt>
+  52:	00 00       	nop
+  54:	2b c0       	rjmp	.+86     	; 0xac <__bad_interrupt>
+  56:	00 00       	nop
+  58:	29 c0       	rjmp	.+82     	; 0xac <__bad_interrupt>
+  5a:	00 00       	nop
+  5c:	27 c0       	rjmp	.+78     	; 0xac <__bad_interrupt>
+  5e:	00 00       	nop
+  60:	25 c0       	rjmp	.+74     	; 0xac <__bad_interrupt>
+  62:	00 00       	nop
+  64:	23 c0       	rjmp	.+70     	; 0xac <__bad_interrupt>
+  66:	00 00       	nop
+  68:	21 c0       	rjmp	.+66     	; 0xac <__bad_interrupt>
+  6a:	00 00       	nop
+  6c:	1f c0       	rjmp	.+62     	; 0xac <__bad_interrupt>
+  6e:	00 00       	nop
+  70:	1d c0       	rjmp	.+58     	; 0xac <__bad_interrupt>
+  72:	00 00       	nop
+  74:	1b c0       	rjmp	.+54     	; 0xac <__bad_interrupt>
+  76:	00 00       	nop
+  78:	19 c0       	rjmp	.+50     	; 0xac <__bad_interrupt>
+  7a:	00 00       	nop
+  7c:	17 c0       	rjmp	.+46     	; 0xac <__bad_interrupt>
+  7e:	00 00       	nop
+  80:	15 c0       	rjmp	.+42     	; 0xac <__bad_interrupt>
+  82:	00 00       	nop
+  84:	13 c0       	rjmp	.+38     	; 0xac <__bad_interrupt>
+  86:	00 00       	nop
+  88:	11 c0       	rjmp	.+34     	; 0xac <__bad_interrupt>
+	...
+
+0000008c <__ctors_end>:
+  8c:	11 24       	eor	r1, r1
+  8e:	1f be       	out	0x3f, r1	; 63
+  90:	cf ef       	ldi	r28, 0xFF	; 255
+  92:	d0 e1       	ldi	r29, 0x10	; 16
+  94:	de bf       	out	0x3e, r29	; 62
+  96:	cd bf       	out	0x3d, r28	; 61
+
+00000098 <__do_clear_bss>:
+  98:	21 e0       	ldi	r18, 0x01	; 1
+  9a:	a0 e0       	ldi	r26, 0x00	; 0
+  9c:	b1 e0       	ldi	r27, 0x01	; 1
+  9e:	01 c0       	rjmp	.+2      	; 0xa2 <.do_clear_bss_start>
+
+000000a0 <.do_clear_bss_loop>:
+  a0:	1d 92       	st	X+, r1
+
+000000a2 <.do_clear_bss_start>:
+  a2:	a9 30       	cpi	r26, 0x09	; 9
+  a4:	b2 07       	cpc	r27, r18
+  a6:	e1 f7       	brne	.-8      	; 0xa0 <.do_clear_bss_loop>
+  a8:	08 d1       	rcall	.+528    	; 0x2ba <main>
+  aa:	1d c1       	rjmp	.+570    	; 0x2e6 <_exit>
+
+000000ac <__bad_interrupt>:
+  ac:	a9 cf       	rjmp	.-174    	; 0x0 <__vectors>
+
+000000ae <redGreen>:
+uint8_t trafficState = RED_GREEN;
+uint32_t timeTick = 0;
+
+void redGreen()
+{
+	PORTF = ((1<<0) | (1<<4));
+  ae:	81 e1       	ldi	r24, 0x11	; 17
+  b0:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
+  b4:	08 95       	ret
+
+000000b6 <redYellow>:
+}
+
+void redYellow()
+{
+	PORTF = ((1<<0) | (1<<5));
+  b6:	81 e2       	ldi	r24, 0x21	; 33
+  b8:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
+  bc:	08 95       	ret
+
+000000be <greenRed>:
+}
+
+void greenRed()
+{
+	PORTF = ((1<<1) | (1<<3));
+  be:	8a e0       	ldi	r24, 0x0A	; 10
+  c0:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
+  c4:	08 95       	ret
+
+000000c6 <yellowRed>:
+}
+
+void yellowRed()
+{
+	PORTF = ((1<<2) | (1<<3));
+  c6:	8c e0       	ldi	r24, 0x0C	; 12
+  c8:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
+  cc:	08 95       	ret
+
+000000ce <TrafficSignal_Auto>:
+}
+
+void TrafficSignal_Auto()
+{
+  ce:	0f 93       	push	r16
+  d0:	1f 93       	push	r17
+	static uint32_t prevTime = 0;
+	
+	switch (trafficState)
+  d2:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <trafficState>
+  d6:	81 30       	cpi	r24, 0x01	; 1
+  d8:	99 f1       	breq	.+102    	; 0x140 <TrafficSignal_Auto+0x72>
+  da:	38 f0       	brcs	.+14     	; 0xea <TrafficSignal_Auto+0x1c>
+  dc:	82 30       	cpi	r24, 0x02	; 2
+  de:	09 f4       	brne	.+2      	; 0xe2 <TrafficSignal_Auto+0x14>
+  e0:	5a c0       	rjmp	.+180    	; 0x196 <TrafficSignal_Auto+0xc8>
+  e2:	83 30       	cpi	r24, 0x03	; 3
+  e4:	09 f4       	brne	.+2      	; 0xe8 <TrafficSignal_Auto+0x1a>
+  e6:	81 c0       	rjmp	.+258    	; 0x1ea <TrafficSignal_Auto+0x11c>
+  e8:	a8 c0       	rjmp	.+336    	; 0x23a <TrafficSignal_Auto+0x16c>
+	{
+		case RED_GREEN:
+		redGreen();
+  ea:	e1 df       	rcall	.-62     	; 0xae <redGreen>
+		//_delay_ms(3000);
+		if (timeTick - prevTime >= 3000)
+  ec:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
+  f0:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
+  f4:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
+  f8:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
+  fc:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 100:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 104:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 108:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 10c:	8c 01       	movw	r16, r24
+ 10e:	9d 01       	movw	r18, r26
+ 110:	04 1b       	sub	r16, r20
+ 112:	15 0b       	sbc	r17, r21
+ 114:	26 0b       	sbc	r18, r22
+ 116:	37 0b       	sbc	r19, r23
+ 118:	b9 01       	movw	r22, r18
+ 11a:	a8 01       	movw	r20, r16
+ 11c:	48 3b       	cpi	r20, 0xB8	; 184
+ 11e:	5b 40       	sbci	r21, 0x0B	; 11
+ 120:	61 05       	cpc	r22, r1
+ 122:	71 05       	cpc	r23, r1
+ 124:	08 f4       	brcc	.+2      	; 0x128 <TrafficSignal_Auto+0x5a>
+ 126:	89 c0       	rjmp	.+274    	; 0x23a <TrafficSignal_Auto+0x16c>
+		{
+			prevTime = timeTick;
+ 128:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 12c:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 130:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 134:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+			trafficState = RED_YELLOW;
+ 138:	81 e0       	ldi	r24, 0x01	; 1
+ 13a:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+		}
+		break;
+		
+		case RED_YELLOW:
+		redYellow();
+ 13e:	7d c0       	rjmp	.+250    	; 0x23a <TrafficSignal_Auto+0x16c>
+ 140:	ba df       	rcall	.-140    	; 0xb6 <redYellow>
+		//_delay_ms(1000);
+		if (timeTick - prevTime >= 1000)
+ 142:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
+ 146:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
+ 14a:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
+ 14e:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
+ 152:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 156:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 15a:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 15e:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 162:	8c 01       	movw	r16, r24
+ 164:	9d 01       	movw	r18, r26
+ 166:	04 1b       	sub	r16, r20
+ 168:	15 0b       	sbc	r17, r21
+ 16a:	26 0b       	sbc	r18, r22
+ 16c:	37 0b       	sbc	r19, r23
+ 16e:	b9 01       	movw	r22, r18
+ 170:	a8 01       	movw	r20, r16
+ 172:	48 3e       	cpi	r20, 0xE8	; 232
+ 174:	53 40       	sbci	r21, 0x03	; 3
+ 176:	61 05       	cpc	r22, r1
+ 178:	71 05       	cpc	r23, r1
+ 17a:	08 f4       	brcc	.+2      	; 0x17e <TrafficSignal_Auto+0xb0>
+ 17c:	5e c0       	rjmp	.+188    	; 0x23a <TrafficSignal_Auto+0x16c>
+		{
+			prevTime = timeTick;
+ 17e:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 182:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 186:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 18a:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+			trafficState = GREEN_RED;
+ 18e:	82 e0       	ldi	r24, 0x02	; 2
+ 190:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+		}
+		break;
+		
+		case GREEN_RED:
+		greenRed();
+ 194:	52 c0       	rjmp	.+164    	; 0x23a <TrafficSignal_Auto+0x16c>
+ 196:	93 df       	rcall	.-218    	; 0xbe <greenRed>
+		//_delay_ms(3000);
+		if (timeTick - prevTime >= 3000)
+ 198:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
+ 19c:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
+ 1a0:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
+ 1a4:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
+ 1a8:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 1ac:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 1b0:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 1b4:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 1b8:	8c 01       	movw	r16, r24
+ 1ba:	9d 01       	movw	r18, r26
+ 1bc:	04 1b       	sub	r16, r20
+ 1be:	15 0b       	sbc	r17, r21
+ 1c0:	26 0b       	sbc	r18, r22
+ 1c2:	37 0b       	sbc	r19, r23
+ 1c4:	b9 01       	movw	r22, r18
+ 1c6:	a8 01       	movw	r20, r16
+ 1c8:	48 3b       	cpi	r20, 0xB8	; 184
+ 1ca:	5b 40       	sbci	r21, 0x0B	; 11
+ 1cc:	61 05       	cpc	r22, r1
+ 1ce:	71 05       	cpc	r23, r1
+ 1d0:	a0 f1       	brcs	.+104    	; 0x23a <TrafficSignal_Auto+0x16c>
+		{
+			prevTime = timeTick;
+ 1d2:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 1d6:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 1da:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 1de:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+			trafficState = YELLOW_RED;
+ 1e2:	83 e0       	ldi	r24, 0x03	; 3
+ 1e4:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+		}
+		break;
+		
+		case YELLOW_RED:
+		yellowRed();
+ 1e8:	28 c0       	rjmp	.+80     	; 0x23a <TrafficSignal_Auto+0x16c>
+ 1ea:	6d df       	rcall	.-294    	; 0xc6 <yellowRed>
+		//_delay_ms(1000);
+		if (timeTick - prevTime >= 1000)
+ 1ec:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
+ 1f0:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
+ 1f4:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
+ 1f8:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
+ 1fc:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 200:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 204:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 208:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 20c:	8c 01       	movw	r16, r24
+ 20e:	9d 01       	movw	r18, r26
+ 210:	04 1b       	sub	r16, r20
+ 212:	15 0b       	sbc	r17, r21
+ 214:	26 0b       	sbc	r18, r22
+ 216:	37 0b       	sbc	r19, r23
+ 218:	b9 01       	movw	r22, r18
+ 21a:	a8 01       	movw	r20, r16
+ 21c:	48 3e       	cpi	r20, 0xE8	; 232
+ 21e:	53 40       	sbci	r21, 0x03	; 3
+ 220:	61 05       	cpc	r22, r1
+ 222:	71 05       	cpc	r23, r1
+ 224:	50 f0       	brcs	.+20     	; 0x23a <TrafficSignal_Auto+0x16c>
+		{
+			prevTime = timeTick;
+ 226:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 22a:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 22e:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 232:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+			trafficState = RED_GREEN;
+ 236:	10 92 08 01 	sts	0x0108, r1	; 0x800108 <trafficState>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 23a:	8f e3       	ldi	r24, 0x3F	; 63
+ 23c:	9c e9       	ldi	r25, 0x9C	; 156
+ 23e:	01 97       	sbiw	r24, 0x01	; 1
+ 240:	f1 f7       	brne	.-4      	; 0x23e <TrafficSignal_Auto+0x170>
+ 242:	00 c0       	rjmp	.+0      	; 0x244 <TrafficSignal_Auto+0x176>
+ 244:	00 00       	nop
+		}
+		break;
+	}
+	_delay_ms(10);
+	timeTick += 10;
+ 246:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
+ 24a:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
+ 24e:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
+ 252:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
+ 256:	0a 96       	adiw	r24, 0x0a	; 10
+ 258:	a1 1d       	adc	r26, r1
+ 25a:	b1 1d       	adc	r27, r1
+ 25c:	80 93 04 01 	sts	0x0104, r24	; 0x800104 <timeTick>
+ 260:	90 93 05 01 	sts	0x0105, r25	; 0x800105 <timeTick+0x1>
+ 264:	a0 93 06 01 	sts	0x0106, r26	; 0x800106 <timeTick+0x2>
+ 268:	b0 93 07 01 	sts	0x0107, r27	; 0x800107 <timeTick+0x3>
+}
+ 26c:	1f 91       	pop	r17
+ 26e:	0f 91       	pop	r16
+ 270:	08 95       	ret
+
+00000272 <TrafficSignal_Manual>:
+
+void TrafficSignal_Manual()
+{
+	switch (trafficState)
+ 272:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <trafficState>
+ 276:	81 30       	cpi	r24, 0x01	; 1
+ 278:	69 f0       	breq	.+26     	; 0x294 <TrafficSignal_Manual+0x22>
+ 27a:	28 f0       	brcs	.+10     	; 0x286 <TrafficSignal_Manual+0x14>
+ 27c:	82 30       	cpi	r24, 0x02	; 2
+ 27e:	89 f0       	breq	.+34     	; 0x2a2 <TrafficSignal_Manual+0x30>
+ 280:	83 30       	cpi	r24, 0x03	; 3
+ 282:	b1 f0       	breq	.+44     	; 0x2b0 <TrafficSignal_Manual+0x3e>
+ 284:	08 95       	ret
+	{
+		case RED_GREEN:
+		redGreen();
+ 286:	13 df       	rcall	.-474    	; 0xae <redGreen>
+		if ((trafficButtonPIN & (1<<B_SWITCHING)) == 0)
+ 288:	ca 99       	sbic	0x19, 2	; 25
+ 28a:	16 c0       	rjmp	.+44     	; 0x2b8 <TrafficSignal_Manual+0x46>
+			trafficState = RED_YELLOW;
+ 28c:	81 e0       	ldi	r24, 0x01	; 1
+ 28e:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+		break;
+
+		case RED_YELLOW:
+		redYellow();
+ 292:	08 95       	ret
+ 294:	10 df       	rcall	.-480    	; 0xb6 <redYellow>
+		if ((trafficButtonPIN & (1<<B_SWITCHING)) == 0)
+ 296:	ca 99       	sbic	0x19, 2	; 25
+ 298:	0f c0       	rjmp	.+30     	; 0x2b8 <TrafficSignal_Manual+0x46>
+			trafficState = GREEN_RED;
+ 29a:	82 e0       	ldi	r24, 0x02	; 2
+ 29c:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+		break;
+
+		case GREEN_RED:
+		greenRed();
+ 2a0:	08 95       	ret
+ 2a2:	0d df       	rcall	.-486    	; 0xbe <greenRed>
+		if ((trafficButtonPIN & (1<<B_SWITCHING)) == 0)
+ 2a4:	ca 99       	sbic	0x19, 2	; 25
+ 2a6:	08 c0       	rjmp	.+16     	; 0x2b8 <TrafficSignal_Manual+0x46>
+			trafficState = YELLOW_RED;
+ 2a8:	83 e0       	ldi	r24, 0x03	; 3
+ 2aa:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+		break;
+
+		case YELLOW_RED:
+		yellowRed();
+ 2ae:	08 95       	ret
+ 2b0:	0a df       	rcall	.-492    	; 0xc6 <yellowRed>
+		if ((trafficButtonPIN & (1<<B_SWITCHING)) == 0)
+ 2b2:	ca 9b       	sbis	0x19, 2	; 25
+			trafficState = RED_GREEN;
+ 2b4:	10 92 08 01 	sts	0x0108, r1	; 0x800108 <trafficState>
+ 2b8:	08 95       	ret
+
+000002ba <main>:
+		break;
+	}
+}
+int main(void)
+{
+	trafficButtonDDR &= ~((1<<B_AUTO) | (1<<B_MANUAL) | (1<<B_SWITCHING));
+ 2ba:	8a b3       	in	r24, 0x1a	; 26
+ 2bc:	88 7f       	andi	r24, 0xF8	; 248
+ 2be:	8a bb       	out	0x1a, r24	; 26
+	trafficLedDDR |= ((1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5));
+ 2c0:	e1 e6       	ldi	r30, 0x61	; 97
+ 2c2:	f0 e0       	ldi	r31, 0x00	; 0
+ 2c4:	80 81       	ld	r24, Z
+ 2c6:	8f 63       	ori	r24, 0x3F	; 63
+ 2c8:	80 83       	st	Z, r24
+
+	uint8_t trafficModeState = AUTO;
+ 2ca:	c0 e0       	ldi	r28, 0x00	; 0
+
+	while (1)
+	{
+		if (!(PINA & 0b00000001))
+ 2cc:	c8 9b       	sbis	0x19, 0	; 25
+		trafficModeState = AUTO;
+ 2ce:	c0 e0       	ldi	r28, 0x00	; 0
+		if (!(PINA & 0b00000010))
+ 2d0:	c9 9b       	sbis	0x19, 1	; 25
+		trafficModeState = MANUAL;
+ 2d2:	c1 e0       	ldi	r28, 0x01	; 1
+		
+		switch(trafficModeState)
+ 2d4:	cc 23       	and	r28, r28
+ 2d6:	19 f0       	breq	.+6      	; 0x2de <main+0x24>
+ 2d8:	c1 30       	cpi	r28, 0x01	; 1
+ 2da:	19 f0       	breq	.+6      	; 0x2e2 <main+0x28>
+ 2dc:	f7 cf       	rjmp	.-18     	; 0x2cc <main+0x12>
+		{
+			case (AUTO):
+			TrafficSignal_Auto();
+ 2de:	f7 de       	rcall	.-530    	; 0xce <TrafficSignal_Auto>
+			break;
+			
+			case (MANUAL):
+			TrafficSignal_Manual();
+ 2e0:	f5 cf       	rjmp	.-22     	; 0x2cc <main+0x12>
+ 2e2:	c7 df       	rcall	.-114    	; 0x272 <TrafficSignal_Manual>
+			break;
+ 2e4:	f3 cf       	rjmp	.-26     	; 0x2cc <main+0x12>
+
+000002e6 <_exit>:
+ 2e6:	f8 94       	cli
+
+000002e8 <__stop_program>:
+ 2e8:	ff cf       	rjmp	.-2      	; 0x2e8 <__stop_program>
