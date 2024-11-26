@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "trafficsignal.h": "c",
+        "stdio.h": "c",
+        "button_driver.h": "c"
+    }
+}

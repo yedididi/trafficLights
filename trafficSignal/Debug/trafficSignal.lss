@@ -3,31 +3,31 @@ trafficSignal.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  0000035e  2**0
+  0 .data         00000000  00800100  00800100  0000043e  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000002ea  00000000  00000000  00000074  2**1
+  1 .text         000003ca  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000009  00800100  00800100  0000035e  2**0
+  2 .bss          0000001c  00800100  00800100  0000043e  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000035e  2**0
+  3 .comment      00000030  00000000  00000000  0000043e  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000390  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000470  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000050  00000000  00000000  000003d0  2**0
+  5 .debug_aranges 000000b8  00000000  00000000  000004b0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000009fc  00000000  00000000  00000420  2**0
+  6 .debug_info   00000fef  00000000  00000000  00000568  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000870  00000000  00000000  00000e1c  2**0
+  7 .debug_abbrev 00000aee  00000000  00000000  00001557  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000003fa  00000000  00000000  0000168c  2**0
+  8 .debug_line   0000075f  00000000  00000000  00002045  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000090  00000000  00000000  00001a88  2**2
+  9 .debug_frame  0000010c  00000000  00000000  000027a4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000004c7  00000000  00000000  00001b18  2**0
+ 10 .debug_str    000005c5  00000000  00000000  000028b0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000096  00000000  00000000  00001fdf  2**0
+ 11 .debug_loc    00000165  00000000  00000000  00002e75  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000040  00000000  00000000  00002075  2**0
+ 12 .debug_ranges 00000078  00000000  00000000  00002fda  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -122,376 +122,533 @@ Disassembly of section .text:
   a0:	1d 92       	st	X+, r1
 
 000000a2 <.do_clear_bss_start>:
-  a2:	a9 30       	cpi	r26, 0x09	; 9
+  a2:	ac 31       	cpi	r26, 0x1C	; 28
   a4:	b2 07       	cpc	r27, r18
   a6:	e1 f7       	brne	.-8      	; 0xa0 <.do_clear_bss_loop>
-  a8:	08 d1       	rcall	.+528    	; 0x2ba <main>
-  aa:	1d c1       	rjmp	.+570    	; 0x2e6 <_exit>
+  a8:	02 d0       	rcall	.+4      	; 0xae <main>
+  aa:	8d c1       	rjmp	.+794    	; 0x3c6 <_exit>
 
 000000ac <__bad_interrupt>:
   ac:	a9 cf       	rjmp	.-174    	; 0x0 <__vectors>
 
-000000ae <redGreen>:
-uint8_t trafficState = RED_GREEN;
-uint32_t timeTick = 0;
+000000ae <main>:
+#include "trafficSignal/trafficSignal.h"
 
-void redGreen()
+
+int main(void)
 {
-	PORTF = ((1<<0) | (1<<4));
-  ae:	81 e1       	ldi	r24, 0x11	; 17
-  b0:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
-  b4:	08 95       	ret
+	init();
+  ae:	04 d1       	rcall	.+520    	; 0x2b8 <init>
+	while (1)
+	{
+		exec();
+  b0:	20 d1       	rcall	.+576    	; 0x2f2 <exec>
+  b2:	fe cf       	rjmp	.-4      	; 0xb0 <main+0x2>
 
-000000b6 <redYellow>:
-}
-
-void redYellow()
-{
-	PORTF = ((1<<0) | (1<<5));
-  b6:	81 e2       	ldi	r24, 0x21	; 33
-  b8:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
-  bc:	08 95       	ret
-
-000000be <greenRed>:
-}
-
-void greenRed()
-{
-	PORTF = ((1<<1) | (1<<3));
-  be:	8a e0       	ldi	r24, 0x0A	; 10
-  c0:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
-  c4:	08 95       	ret
-
-000000c6 <yellowRed>:
-}
-
-void yellowRed()
-{
-	PORTF = ((1<<2) | (1<<3));
-  c6:	8c e0       	ldi	r24, 0x0C	; 12
-  c8:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
-  cc:	08 95       	ret
-
-000000ce <TrafficSignal_Auto>:
-}
+000000b4 <TrafficSignal_Auto>:
+  b4:	0f 93       	push	r16
+button_t autoButton;
+button_t manualButton;
+button_t nextButton; 
 
 void TrafficSignal_Auto()
 {
-  ce:	0f 93       	push	r16
-  d0:	1f 93       	push	r17
+  b6:	1f 93       	push	r17
 	static uint32_t prevTime = 0;
 	
 	switch (trafficState)
-  d2:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <trafficState>
-  d6:	81 30       	cpi	r24, 0x01	; 1
-  d8:	99 f1       	breq	.+102    	; 0x140 <TrafficSignal_Auto+0x72>
-  da:	38 f0       	brcs	.+14     	; 0xea <TrafficSignal_Auto+0x1c>
-  dc:	82 30       	cpi	r24, 0x02	; 2
-  de:	09 f4       	brne	.+2      	; 0xe2 <TrafficSignal_Auto+0x14>
-  e0:	5a c0       	rjmp	.+180    	; 0x196 <TrafficSignal_Auto+0xc8>
-  e2:	83 30       	cpi	r24, 0x03	; 3
-  e4:	09 f4       	brne	.+2      	; 0xe8 <TrafficSignal_Auto+0x1a>
-  e6:	81 c0       	rjmp	.+258    	; 0x1ea <TrafficSignal_Auto+0x11c>
-  e8:	a8 c0       	rjmp	.+336    	; 0x23a <TrafficSignal_Auto+0x16c>
+  b8:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <trafficState>
+  bc:	81 30       	cpi	r24, 0x01	; 1
+  be:	99 f1       	breq	.+102    	; 0x126 <TrafficSignal_Auto+0x72>
+  c0:	38 f0       	brcs	.+14     	; 0xd0 <TrafficSignal_Auto+0x1c>
+  c2:	82 30       	cpi	r24, 0x02	; 2
+  c4:	09 f4       	brne	.+2      	; 0xc8 <TrafficSignal_Auto+0x14>
+  c6:	5a c0       	rjmp	.+180    	; 0x17c <TrafficSignal_Auto+0xc8>
+  c8:	83 30       	cpi	r24, 0x03	; 3
+  ca:	09 f4       	brne	.+2      	; 0xce <TrafficSignal_Auto+0x1a>
+  cc:	81 c0       	rjmp	.+258    	; 0x1d0 <TrafficSignal_Auto+0x11c>
+  ce:	a8 c0       	rjmp	.+336    	; 0x220 <TrafficSignal_Auto+0x16c>
 	{
 		case RED_GREEN:
 		redGreen();
-  ea:	e1 df       	rcall	.-62     	; 0xae <redGreen>
+  d0:	6a d1       	rcall	.+724    	; 0x3a6 <redGreen>
 		//_delay_ms(3000);
 		if (timeTick - prevTime >= 3000)
-  ec:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
-  f0:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
-  f4:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
-  f8:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
-  fc:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 100:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 104:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
- 108:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
- 10c:	8c 01       	movw	r16, r24
- 10e:	9d 01       	movw	r18, r26
- 110:	04 1b       	sub	r16, r20
- 112:	15 0b       	sbc	r17, r21
- 114:	26 0b       	sbc	r18, r22
- 116:	37 0b       	sbc	r19, r23
- 118:	b9 01       	movw	r22, r18
- 11a:	a8 01       	movw	r20, r16
- 11c:	48 3b       	cpi	r20, 0xB8	; 184
- 11e:	5b 40       	sbci	r21, 0x0B	; 11
- 120:	61 05       	cpc	r22, r1
- 122:	71 05       	cpc	r23, r1
- 124:	08 f4       	brcc	.+2      	; 0x128 <TrafficSignal_Auto+0x5a>
- 126:	89 c0       	rjmp	.+274    	; 0x23a <TrafficSignal_Auto+0x16c>
+  d2:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
+  d6:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
+  da:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
+  de:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
+  e2:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+  e6:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+  ea:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+  ee:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+  f2:	8c 01       	movw	r16, r24
+  f4:	9d 01       	movw	r18, r26
+  f6:	04 1b       	sub	r16, r20
+  f8:	15 0b       	sbc	r17, r21
+  fa:	26 0b       	sbc	r18, r22
+  fc:	37 0b       	sbc	r19, r23
+  fe:	b9 01       	movw	r22, r18
+ 100:	a8 01       	movw	r20, r16
+ 102:	48 3b       	cpi	r20, 0xB8	; 184
+ 104:	5b 40       	sbci	r21, 0x0B	; 11
+ 106:	61 05       	cpc	r22, r1
+ 108:	71 05       	cpc	r23, r1
+ 10a:	08 f4       	brcc	.+2      	; 0x10e <TrafficSignal_Auto+0x5a>
+ 10c:	89 c0       	rjmp	.+274    	; 0x220 <TrafficSignal_Auto+0x16c>
 		{
 			prevTime = timeTick;
- 128:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 12c:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 130:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
- 134:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 10e:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 112:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 116:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 11a:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
 			trafficState = RED_YELLOW;
- 138:	81 e0       	ldi	r24, 0x01	; 1
- 13a:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+ 11e:	81 e0       	ldi	r24, 0x01	; 1
+ 120:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
 		}
 		break;
 		
 		case RED_YELLOW:
 		redYellow();
- 13e:	7d c0       	rjmp	.+250    	; 0x23a <TrafficSignal_Auto+0x16c>
- 140:	ba df       	rcall	.-140    	; 0xb6 <redYellow>
+ 124:	7d c0       	rjmp	.+250    	; 0x220 <TrafficSignal_Auto+0x16c>
+ 126:	43 d1       	rcall	.+646    	; 0x3ae <redYellow>
 		//_delay_ms(1000);
 		if (timeTick - prevTime >= 1000)
- 142:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
- 146:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
- 14a:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
- 14e:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
- 152:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 156:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 15a:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
- 15e:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
- 162:	8c 01       	movw	r16, r24
- 164:	9d 01       	movw	r18, r26
- 166:	04 1b       	sub	r16, r20
- 168:	15 0b       	sbc	r17, r21
- 16a:	26 0b       	sbc	r18, r22
- 16c:	37 0b       	sbc	r19, r23
- 16e:	b9 01       	movw	r22, r18
- 170:	a8 01       	movw	r20, r16
- 172:	48 3e       	cpi	r20, 0xE8	; 232
- 174:	53 40       	sbci	r21, 0x03	; 3
- 176:	61 05       	cpc	r22, r1
- 178:	71 05       	cpc	r23, r1
- 17a:	08 f4       	brcc	.+2      	; 0x17e <TrafficSignal_Auto+0xb0>
- 17c:	5e c0       	rjmp	.+188    	; 0x23a <TrafficSignal_Auto+0x16c>
+ 128:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
+ 12c:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
+ 130:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
+ 134:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
+ 138:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 13c:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 140:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 144:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 148:	8c 01       	movw	r16, r24
+ 14a:	9d 01       	movw	r18, r26
+ 14c:	04 1b       	sub	r16, r20
+ 14e:	15 0b       	sbc	r17, r21
+ 150:	26 0b       	sbc	r18, r22
+ 152:	37 0b       	sbc	r19, r23
+ 154:	b9 01       	movw	r22, r18
+ 156:	a8 01       	movw	r20, r16
+ 158:	48 3e       	cpi	r20, 0xE8	; 232
+ 15a:	53 40       	sbci	r21, 0x03	; 3
+ 15c:	61 05       	cpc	r22, r1
+ 15e:	71 05       	cpc	r23, r1
+ 160:	08 f4       	brcc	.+2      	; 0x164 <TrafficSignal_Auto+0xb0>
+ 162:	5e c0       	rjmp	.+188    	; 0x220 <TrafficSignal_Auto+0x16c>
 		{
 			prevTime = timeTick;
- 17e:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 182:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 186:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
- 18a:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 164:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 168:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 16c:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 170:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
 			trafficState = GREEN_RED;
- 18e:	82 e0       	ldi	r24, 0x02	; 2
- 190:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+ 174:	82 e0       	ldi	r24, 0x02	; 2
+ 176:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
 		}
 		break;
 		
 		case GREEN_RED:
 		greenRed();
- 194:	52 c0       	rjmp	.+164    	; 0x23a <TrafficSignal_Auto+0x16c>
- 196:	93 df       	rcall	.-218    	; 0xbe <greenRed>
+ 17a:	52 c0       	rjmp	.+164    	; 0x220 <TrafficSignal_Auto+0x16c>
+ 17c:	1c d1       	rcall	.+568    	; 0x3b6 <greenRed>
 		//_delay_ms(3000);
 		if (timeTick - prevTime >= 3000)
- 198:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
- 19c:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
- 1a0:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
- 1a4:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
- 1a8:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 1ac:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 1b0:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
- 1b4:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
- 1b8:	8c 01       	movw	r16, r24
- 1ba:	9d 01       	movw	r18, r26
- 1bc:	04 1b       	sub	r16, r20
- 1be:	15 0b       	sbc	r17, r21
- 1c0:	26 0b       	sbc	r18, r22
- 1c2:	37 0b       	sbc	r19, r23
- 1c4:	b9 01       	movw	r22, r18
- 1c6:	a8 01       	movw	r20, r16
- 1c8:	48 3b       	cpi	r20, 0xB8	; 184
- 1ca:	5b 40       	sbci	r21, 0x0B	; 11
- 1cc:	61 05       	cpc	r22, r1
- 1ce:	71 05       	cpc	r23, r1
- 1d0:	a0 f1       	brcs	.+104    	; 0x23a <TrafficSignal_Auto+0x16c>
+ 17e:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
+ 182:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
+ 186:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
+ 18a:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
+ 18e:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 192:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 196:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 19a:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 19e:	8c 01       	movw	r16, r24
+ 1a0:	9d 01       	movw	r18, r26
+ 1a2:	04 1b       	sub	r16, r20
+ 1a4:	15 0b       	sbc	r17, r21
+ 1a6:	26 0b       	sbc	r18, r22
+ 1a8:	37 0b       	sbc	r19, r23
+ 1aa:	b9 01       	movw	r22, r18
+ 1ac:	a8 01       	movw	r20, r16
+ 1ae:	48 3b       	cpi	r20, 0xB8	; 184
+ 1b0:	5b 40       	sbci	r21, 0x0B	; 11
+ 1b2:	61 05       	cpc	r22, r1
+ 1b4:	71 05       	cpc	r23, r1
+ 1b6:	a0 f1       	brcs	.+104    	; 0x220 <TrafficSignal_Auto+0x16c>
 		{
 			prevTime = timeTick;
- 1d2:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 1d6:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 1da:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
- 1de:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 1b8:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 1bc:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 1c0:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 1c4:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
 			trafficState = YELLOW_RED;
- 1e2:	83 e0       	ldi	r24, 0x03	; 3
- 1e4:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+ 1c8:	83 e0       	ldi	r24, 0x03	; 3
+ 1ca:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
 		}
 		break;
 		
 		case YELLOW_RED:
 		yellowRed();
- 1e8:	28 c0       	rjmp	.+80     	; 0x23a <TrafficSignal_Auto+0x16c>
- 1ea:	6d df       	rcall	.-294    	; 0xc6 <yellowRed>
+ 1ce:	28 c0       	rjmp	.+80     	; 0x220 <TrafficSignal_Auto+0x16c>
+ 1d0:	f6 d0       	rcall	.+492    	; 0x3be <yellowRed>
 		//_delay_ms(1000);
 		if (timeTick - prevTime >= 1000)
- 1ec:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
- 1f0:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
- 1f4:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
- 1f8:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
- 1fc:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
- 200:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 204:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
- 208:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
- 20c:	8c 01       	movw	r16, r24
- 20e:	9d 01       	movw	r18, r26
- 210:	04 1b       	sub	r16, r20
- 212:	15 0b       	sbc	r17, r21
- 214:	26 0b       	sbc	r18, r22
- 216:	37 0b       	sbc	r19, r23
- 218:	b9 01       	movw	r22, r18
- 21a:	a8 01       	movw	r20, r16
- 21c:	48 3e       	cpi	r20, 0xE8	; 232
- 21e:	53 40       	sbci	r21, 0x03	; 3
- 220:	61 05       	cpc	r22, r1
- 222:	71 05       	cpc	r23, r1
- 224:	50 f0       	brcs	.+20     	; 0x23a <TrafficSignal_Auto+0x16c>
+ 1d2:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
+ 1d6:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
+ 1da:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
+ 1de:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
+ 1e2:	40 91 00 01 	lds	r20, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 1e6:	50 91 01 01 	lds	r21, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 1ea:	60 91 02 01 	lds	r22, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 1ee:	70 91 03 01 	lds	r23, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 1f2:	8c 01       	movw	r16, r24
+ 1f4:	9d 01       	movw	r18, r26
+ 1f6:	04 1b       	sub	r16, r20
+ 1f8:	15 0b       	sbc	r17, r21
+ 1fa:	26 0b       	sbc	r18, r22
+ 1fc:	37 0b       	sbc	r19, r23
+ 1fe:	b9 01       	movw	r22, r18
+ 200:	a8 01       	movw	r20, r16
+ 202:	48 3e       	cpi	r20, 0xE8	; 232
+ 204:	53 40       	sbci	r21, 0x03	; 3
+ 206:	61 05       	cpc	r22, r1
+ 208:	71 05       	cpc	r23, r1
+ 20a:	50 f0       	brcs	.+20     	; 0x220 <TrafficSignal_Auto+0x16c>
 		{
 			prevTime = timeTick;
- 226:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 22a:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 22e:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
- 232:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 20c:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 210:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
+ 214:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
+ 218:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
 			trafficState = RED_GREEN;
- 236:	10 92 08 01 	sts	0x0108, r1	; 0x800108 <trafficState>
+ 21c:	10 92 08 01 	sts	0x0108, r1	; 0x800108 <trafficState>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 23a:	8f e3       	ldi	r24, 0x3F	; 63
- 23c:	9c e9       	ldi	r25, 0x9C	; 156
- 23e:	01 97       	sbiw	r24, 0x01	; 1
- 240:	f1 f7       	brne	.-4      	; 0x23e <TrafficSignal_Auto+0x170>
- 242:	00 c0       	rjmp	.+0      	; 0x244 <TrafficSignal_Auto+0x176>
- 244:	00 00       	nop
+ 220:	8f e3       	ldi	r24, 0x3F	; 63
+ 222:	9c e9       	ldi	r25, 0x9C	; 156
+ 224:	01 97       	sbiw	r24, 0x01	; 1
+ 226:	f1 f7       	brne	.-4      	; 0x224 <TrafficSignal_Auto+0x170>
+ 228:	00 c0       	rjmp	.+0      	; 0x22a <TrafficSignal_Auto+0x176>
+ 22a:	00 00       	nop
 		}
 		break;
 	}
 	_delay_ms(10);
 	timeTick += 10;
- 246:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
- 24a:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
- 24e:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
- 252:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
- 256:	0a 96       	adiw	r24, 0x0a	; 10
- 258:	a1 1d       	adc	r26, r1
- 25a:	b1 1d       	adc	r27, r1
- 25c:	80 93 04 01 	sts	0x0104, r24	; 0x800104 <timeTick>
- 260:	90 93 05 01 	sts	0x0105, r25	; 0x800105 <timeTick+0x1>
- 264:	a0 93 06 01 	sts	0x0106, r26	; 0x800106 <timeTick+0x2>
- 268:	b0 93 07 01 	sts	0x0107, r27	; 0x800107 <timeTick+0x3>
+ 22c:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <timeTick>
+ 230:	90 91 05 01 	lds	r25, 0x0105	; 0x800105 <timeTick+0x1>
+ 234:	a0 91 06 01 	lds	r26, 0x0106	; 0x800106 <timeTick+0x2>
+ 238:	b0 91 07 01 	lds	r27, 0x0107	; 0x800107 <timeTick+0x3>
+ 23c:	0a 96       	adiw	r24, 0x0a	; 10
+ 23e:	a1 1d       	adc	r26, r1
+ 240:	b1 1d       	adc	r27, r1
+ 242:	80 93 04 01 	sts	0x0104, r24	; 0x800104 <timeTick>
+ 246:	90 93 05 01 	sts	0x0105, r25	; 0x800105 <timeTick+0x1>
+ 24a:	a0 93 06 01 	sts	0x0106, r26	; 0x800106 <timeTick+0x2>
+ 24e:	b0 93 07 01 	sts	0x0107, r27	; 0x800107 <timeTick+0x3>
 }
- 26c:	1f 91       	pop	r17
- 26e:	0f 91       	pop	r16
- 270:	08 95       	ret
+ 252:	1f 91       	pop	r17
+ 254:	0f 91       	pop	r16
+ 256:	08 95       	ret
 
-00000272 <TrafficSignal_Manual>:
+00000258 <TrafficSignal_Manual>:
 
 void TrafficSignal_Manual()
 {
 	switch (trafficState)
- 272:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <trafficState>
- 276:	81 30       	cpi	r24, 0x01	; 1
- 278:	69 f0       	breq	.+26     	; 0x294 <TrafficSignal_Manual+0x22>
- 27a:	28 f0       	brcs	.+10     	; 0x286 <TrafficSignal_Manual+0x14>
- 27c:	82 30       	cpi	r24, 0x02	; 2
- 27e:	89 f0       	breq	.+34     	; 0x2a2 <TrafficSignal_Manual+0x30>
- 280:	83 30       	cpi	r24, 0x03	; 3
- 282:	b1 f0       	breq	.+44     	; 0x2b0 <TrafficSignal_Manual+0x3e>
- 284:	08 95       	ret
+ 258:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <trafficState>
+ 25c:	81 30       	cpi	r24, 0x01	; 1
+ 25e:	81 f0       	breq	.+32     	; 0x280 <TrafficSignal_Manual+0x28>
+ 260:	28 f0       	brcs	.+10     	; 0x26c <TrafficSignal_Manual+0x14>
+ 262:	82 30       	cpi	r24, 0x02	; 2
+ 264:	b1 f0       	breq	.+44     	; 0x292 <TrafficSignal_Manual+0x3a>
+ 266:	83 30       	cpi	r24, 0x03	; 3
+ 268:	f1 f0       	breq	.+60     	; 0x2a6 <TrafficSignal_Manual+0x4e>
+ 26a:	08 95       	ret
 	{
 		case RED_GREEN:
 		redGreen();
- 286:	13 df       	rcall	.-474    	; 0xae <redGreen>
-		if ((trafficButtonPIN & (1<<B_SWITCHING)) == 0)
- 288:	ca 99       	sbic	0x19, 2	; 25
- 28a:	16 c0       	rjmp	.+44     	; 0x2b8 <TrafficSignal_Manual+0x46>
+ 26c:	9c d0       	rcall	.+312    	; 0x3a6 <redGreen>
+		if (Button_GetState(&nextButton) == ACT_RELEASED)
+ 26e:	8f e0       	ldi	r24, 0x0F	; 15
+ 270:	91 e0       	ldi	r25, 0x01	; 1
+ 272:	6d d0       	rcall	.+218    	; 0x34e <Button_GetState>
+ 274:	82 30       	cpi	r24, 0x02	; 2
+ 276:	f9 f4       	brne	.+62     	; 0x2b6 <TrafficSignal_Manual+0x5e>
 			trafficState = RED_YELLOW;
- 28c:	81 e0       	ldi	r24, 0x01	; 1
- 28e:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+ 278:	81 e0       	ldi	r24, 0x01	; 1
+ 27a:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
 		break;
 
 		case RED_YELLOW:
 		redYellow();
- 292:	08 95       	ret
- 294:	10 df       	rcall	.-480    	; 0xb6 <redYellow>
-		if ((trafficButtonPIN & (1<<B_SWITCHING)) == 0)
- 296:	ca 99       	sbic	0x19, 2	; 25
- 298:	0f c0       	rjmp	.+30     	; 0x2b8 <TrafficSignal_Manual+0x46>
+ 27e:	08 95       	ret
+		if (Button_GetState(&nextButton) == ACT_RELEASED)
+ 280:	96 d0       	rcall	.+300    	; 0x3ae <redYellow>
+ 282:	8f e0       	ldi	r24, 0x0F	; 15
+ 284:	91 e0       	ldi	r25, 0x01	; 1
+ 286:	63 d0       	rcall	.+198    	; 0x34e <Button_GetState>
+ 288:	82 30       	cpi	r24, 0x02	; 2
 			trafficState = GREEN_RED;
- 29a:	82 e0       	ldi	r24, 0x02	; 2
- 29c:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+ 28a:	a9 f4       	brne	.+42     	; 0x2b6 <TrafficSignal_Manual+0x5e>
+ 28c:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
 		break;
 
 		case GREEN_RED:
 		greenRed();
- 2a0:	08 95       	ret
- 2a2:	0d df       	rcall	.-486    	; 0xbe <greenRed>
-		if ((trafficButtonPIN & (1<<B_SWITCHING)) == 0)
- 2a4:	ca 99       	sbic	0x19, 2	; 25
- 2a6:	08 c0       	rjmp	.+16     	; 0x2b8 <TrafficSignal_Manual+0x46>
+ 290:	08 95       	ret
+		if (Button_GetState(&nextButton) == ACT_RELEASED)
+ 292:	91 d0       	rcall	.+290    	; 0x3b6 <greenRed>
+ 294:	8f e0       	ldi	r24, 0x0F	; 15
+ 296:	91 e0       	ldi	r25, 0x01	; 1
+ 298:	5a d0       	rcall	.+180    	; 0x34e <Button_GetState>
+ 29a:	82 30       	cpi	r24, 0x02	; 2
 			trafficState = YELLOW_RED;
- 2a8:	83 e0       	ldi	r24, 0x03	; 3
- 2aa:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
+ 29c:	61 f4       	brne	.+24     	; 0x2b6 <TrafficSignal_Manual+0x5e>
+ 29e:	83 e0       	ldi	r24, 0x03	; 3
+ 2a0:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <trafficState>
 		break;
 
 		case YELLOW_RED:
 		yellowRed();
- 2ae:	08 95       	ret
- 2b0:	0a df       	rcall	.-492    	; 0xc6 <yellowRed>
-		if ((trafficButtonPIN & (1<<B_SWITCHING)) == 0)
- 2b2:	ca 9b       	sbis	0x19, 2	; 25
+ 2a4:	08 95       	ret
+		if (Button_GetState(&nextButton) == ACT_RELEASED)
+ 2a6:	8b d0       	rcall	.+278    	; 0x3be <yellowRed>
+ 2a8:	8f e0       	ldi	r24, 0x0F	; 15
+ 2aa:	91 e0       	ldi	r25, 0x01	; 1
+ 2ac:	50 d0       	rcall	.+160    	; 0x34e <Button_GetState>
+ 2ae:	82 30       	cpi	r24, 0x02	; 2
+ 2b0:	11 f4       	brne	.+4      	; 0x2b6 <TrafficSignal_Manual+0x5e>
 			trafficState = RED_GREEN;
- 2b4:	10 92 08 01 	sts	0x0108, r1	; 0x800108 <trafficState>
- 2b8:	08 95       	ret
+ 2b2:	10 92 08 01 	sts	0x0108, r1	; 0x800108 <trafficState>
+ 2b6:	08 95       	ret
 
-000002ba <main>:
-		break;
+000002b8 <init>:
 	}
 }
-int main(void)
+
+void init()
 {
-	trafficButtonDDR &= ~((1<<B_AUTO) | (1<<B_MANUAL) | (1<<B_SWITCHING));
- 2ba:	8a b3       	in	r24, 0x1a	; 26
- 2bc:	88 7f       	andi	r24, 0xF8	; 248
- 2be:	8a bb       	out	0x1a, r24	; 26
-	trafficLedDDR |= ((1<<0) | (1<<1) | (1<<2) | (1<<3) | (1<<4) | (1<<5));
- 2c0:	e1 e6       	ldi	r30, 0x61	; 97
- 2c2:	f0 e0       	ldi	r31, 0x00	; 0
- 2c4:	80 81       	ld	r24, Z
- 2c6:	8f 63       	ori	r24, 0x3F	; 63
- 2c8:	80 83       	st	Z, r24
+	trafficModeState = AUTO;
+ 2b8:	10 92 15 01 	sts	0x0115, r1	; 0x800115 <trafficModeState>
+	trafficState = RED_GREEN;
+ 2bc:	10 92 08 01 	sts	0x0108, r1	; 0x800108 <trafficState>
 
-	uint8_t trafficModeState = AUTO;
- 2ca:	c0 e0       	ldi	r28, 0x00	; 0
+    Button_init(&autoButton, &BUTTON_DDR, &BUTTON_PIN, 0);
+ 2c0:	20 e0       	ldi	r18, 0x00	; 0
+ 2c2:	49 e3       	ldi	r20, 0x39	; 57
+ 2c4:	50 e0       	ldi	r21, 0x00	; 0
+ 2c6:	6a e3       	ldi	r22, 0x3A	; 58
+ 2c8:	70 e0       	ldi	r23, 0x00	; 0
+ 2ca:	86 e1       	ldi	r24, 0x16	; 22
+ 2cc:	91 e0       	ldi	r25, 0x01	; 1
+ 2ce:	2b d0       	rcall	.+86     	; 0x326 <Button_init>
+    Button_init(&manualButton, &BUTTON_DDR, &BUTTON_PIN, 1);
+ 2d0:	21 e0       	ldi	r18, 0x01	; 1
+ 2d2:	49 e3       	ldi	r20, 0x39	; 57
+ 2d4:	50 e0       	ldi	r21, 0x00	; 0
+ 2d6:	6a e3       	ldi	r22, 0x3A	; 58
+ 2d8:	70 e0       	ldi	r23, 0x00	; 0
+ 2da:	89 e0       	ldi	r24, 0x09	; 9
+ 2dc:	91 e0       	ldi	r25, 0x01	; 1
+ 2de:	23 d0       	rcall	.+70     	; 0x326 <Button_init>
+    Button_init(&nextButton, &BUTTON_DDR, &BUTTON_PIN, 2);
+ 2e0:	22 e0       	ldi	r18, 0x02	; 2
+ 2e2:	49 e3       	ldi	r20, 0x39	; 57
+ 2e4:	50 e0       	ldi	r21, 0x00	; 0
+ 2e6:	6a e3       	ldi	r22, 0x3A	; 58
+ 2e8:	70 e0       	ldi	r23, 0x00	; 0
+ 2ea:	8f e0       	ldi	r24, 0x0F	; 15
+ 2ec:	91 e0       	ldi	r25, 0x01	; 1
+ 2ee:	1b c0       	rjmp	.+54     	; 0x326 <Button_init>
+ 2f0:	08 95       	ret
 
-	while (1)
-	{
-		if (!(PINA & 0b00000001))
- 2cc:	c8 9b       	sbis	0x19, 0	; 25
-		trafficModeState = AUTO;
- 2ce:	c0 e0       	ldi	r28, 0x00	; 0
-		if (!(PINA & 0b00000010))
- 2d0:	c9 9b       	sbis	0x19, 1	; 25
-		trafficModeState = MANUAL;
- 2d2:	c1 e0       	ldi	r28, 0x01	; 1
+000002f2 <exec>:
+}
+
+void exec()
+{
+		if (Button_GetState(&autoButton) == ACT_RELEASED)
+ 2f2:	86 e1       	ldi	r24, 0x16	; 22
+ 2f4:	91 e0       	ldi	r25, 0x01	; 1
+ 2f6:	2b d0       	rcall	.+86     	; 0x34e <Button_GetState>
+ 2f8:	82 30       	cpi	r24, 0x02	; 2
+ 2fa:	11 f4       	brne	.+4      	; 0x300 <exec+0xe>
+			trafficModeState = AUTO;
+ 2fc:	10 92 15 01 	sts	0x0115, r1	; 0x800115 <trafficModeState>
+		if (Button_GetState(&manualButton) == ACT_RELEASED)
+ 300:	89 e0       	ldi	r24, 0x09	; 9
+ 302:	91 e0       	ldi	r25, 0x01	; 1
+ 304:	24 d0       	rcall	.+72     	; 0x34e <Button_GetState>
+ 306:	82 30       	cpi	r24, 0x02	; 2
+ 308:	19 f4       	brne	.+6      	; 0x310 <exec+0x1e>
+			trafficModeState = MANUAL;
+ 30a:	81 e0       	ldi	r24, 0x01	; 1
+ 30c:	80 93 15 01 	sts	0x0115, r24	; 0x800115 <trafficModeState>
 		
 		switch(trafficModeState)
- 2d4:	cc 23       	and	r28, r28
- 2d6:	19 f0       	breq	.+6      	; 0x2de <main+0x24>
- 2d8:	c1 30       	cpi	r28, 0x01	; 1
- 2da:	19 f0       	breq	.+6      	; 0x2e2 <main+0x28>
- 2dc:	f7 cf       	rjmp	.-18     	; 0x2cc <main+0x12>
+ 310:	80 91 15 01 	lds	r24, 0x0115	; 0x800115 <trafficModeState>
+ 314:	88 23       	and	r24, r24
+ 316:	19 f0       	breq	.+6      	; 0x31e <exec+0x2c>
+ 318:	81 30       	cpi	r24, 0x01	; 1
+ 31a:	19 f0       	breq	.+6      	; 0x322 <exec+0x30>
 		{
 			case (AUTO):
 			TrafficSignal_Auto();
- 2de:	f7 de       	rcall	.-530    	; 0xce <TrafficSignal_Auto>
+ 31c:	08 95       	ret
 			break;
+ 31e:	ca ce       	rjmp	.-620    	; 0xb4 <TrafficSignal_Auto>
 			
 			case (MANUAL):
 			TrafficSignal_Manual();
- 2e0:	f5 cf       	rjmp	.-22     	; 0x2cc <main+0x12>
- 2e2:	c7 df       	rcall	.-114    	; 0x272 <TrafficSignal_Manual>
-			break;
- 2e4:	f3 cf       	rjmp	.-26     	; 0x2cc <main+0x12>
+ 320:	08 95       	ret
+ 322:	9a cf       	rjmp	.-204    	; 0x258 <TrafficSignal_Manual>
+ 324:	08 95       	ret
 
-000002e6 <_exit>:
- 2e6:	f8 94       	cli
+00000326 <Button_init>:
+﻿#include "Button_Driver.h"
 
-000002e8 <__stop_program>:
- 2e8:	ff cf       	rjmp	.-2      	; 0x2e8 <__stop_program>
+void Button_init(button_t *btn, volatile uint8_t *ddr, volatile uint8_t *pin, uint8_t pinNum)
+{
+ 326:	fc 01       	movw	r30, r24
+	btn ->DDR = ddr;		// 포변일때는 -> 사용
+ 328:	71 83       	std	Z+1, r23	; 0x01
+ 32a:	60 83       	st	Z, r22
+	btn ->PIN = pin;
+ 32c:	53 83       	std	Z+3, r21	; 0x03
+ 32e:	42 83       	std	Z+2, r20	; 0x02
+	btn ->pinNum = pinNum;
+ 330:	24 83       	std	Z+4, r18	; 0x04
+	btn ->prevstate = RELEASED;
+ 332:	81 e0       	ldi	r24, 0x01	; 1
+ 334:	85 83       	std	Z+5, r24	; 0x05
+	*btn ->DDR &= (1 << btn -> pinNum);
+ 336:	fb 01       	movw	r30, r22
+ 338:	30 81       	ld	r19, Z
+ 33a:	81 e0       	ldi	r24, 0x01	; 1
+ 33c:	90 e0       	ldi	r25, 0x00	; 0
+ 33e:	02 c0       	rjmp	.+4      	; 0x344 <Button_init+0x1e>
+ 340:	88 0f       	add	r24, r24
+ 342:	99 1f       	adc	r25, r25
+ 344:	2a 95       	dec	r18
+ 346:	e2 f7       	brpl	.-8      	; 0x340 <Button_init+0x1a>
+ 348:	83 23       	and	r24, r19
+ 34a:	80 83       	st	Z, r24
+ 34c:	08 95       	ret
+
+0000034e <Button_GetState>:
+}
+
+uint8_t Button_GetState(button_t *btn) //*btn 주소 유효범위 button_t
+{
+ 34e:	fc 01       	movw	r30, r24
+	uint8_t curState = *btn -> PIN & (1<<btn -> pinNum);
+ 350:	a2 81       	ldd	r26, Z+2	; 0x02
+ 352:	b3 81       	ldd	r27, Z+3	; 0x03
+ 354:	8c 91       	ld	r24, X
+ 356:	21 e0       	ldi	r18, 0x01	; 1
+ 358:	30 e0       	ldi	r19, 0x00	; 0
+ 35a:	04 80       	ldd	r0, Z+4	; 0x04
+ 35c:	02 c0       	rjmp	.+4      	; 0x362 <Button_GetState+0x14>
+ 35e:	22 0f       	add	r18, r18
+ 360:	33 1f       	adc	r19, r19
+ 362:	0a 94       	dec	r0
+ 364:	e2 f7       	brpl	.-8      	; 0x35e <Button_GetState+0x10>
+ 366:	28 23       	and	r18, r24
+	
+	if((curState == PUSHED) && (btn->prevstate == RELEASED))
+ 368:	59 f4       	brne	.+22     	; 0x380 <Button_GetState+0x32>
+ 36a:	85 81       	ldd	r24, Z+5	; 0x05
+ 36c:	81 30       	cpi	r24, 0x01	; 1
+ 36e:	41 f4       	brne	.+16     	; 0x380 <Button_GetState+0x32>
+ 370:	af e3       	ldi	r26, 0x3F	; 63
+ 372:	bc e9       	ldi	r27, 0x9C	; 156
+ 374:	11 97       	sbiw	r26, 0x01	; 1
+ 376:	f1 f7       	brne	.-4      	; 0x374 <Button_GetState+0x26>
+ 378:	00 c0       	rjmp	.+0      	; 0x37a <Button_GetState+0x2c>
+ 37a:	00 00       	nop
+	{
+		_delay_ms(10);
+		btn->prevstate = PUSHED;
+ 37c:	15 82       	std	Z+5, r1	; 0x05
+		return ACT_PUSHED;
+ 37e:	08 95       	ret
+	}
+	else if((curState != PUSHED) && (btn->prevstate == PUSHED))
+ 380:	22 23       	and	r18, r18
+ 382:	69 f0       	breq	.+26     	; 0x39e <Button_GetState+0x50>
+ 384:	85 81       	ldd	r24, Z+5	; 0x05
+ 386:	81 11       	cpse	r24, r1
+ 388:	0c c0       	rjmp	.+24     	; 0x3a2 <Button_GetState+0x54>
+ 38a:	8f e3       	ldi	r24, 0x3F	; 63
+ 38c:	9c e9       	ldi	r25, 0x9C	; 156
+ 38e:	01 97       	sbiw	r24, 0x01	; 1
+ 390:	f1 f7       	brne	.-4      	; 0x38e <Button_GetState+0x40>
+ 392:	00 c0       	rjmp	.+0      	; 0x394 <Button_GetState+0x46>
+ 394:	00 00       	nop
+	{
+		_delay_ms(10);
+		btn->prevstate = RELEASED;
+ 396:	81 e0       	ldi	r24, 0x01	; 1
+ 398:	85 83       	std	Z+5, r24	; 0x05
+		return ACT_RELEASED;
+ 39a:	82 e0       	ldi	r24, 0x02	; 2
+ 39c:	08 95       	ret
+		
+	}
+	return ACT_NONE;
+ 39e:	80 e0       	ldi	r24, 0x00	; 0
+ 3a0:	08 95       	ret
+ 3a2:	80 e0       	ldi	r24, 0x00	; 0
+}
+ 3a4:	08 95       	ret
+
+000003a6 <redGreen>:
+﻿#include "LED_Driver.h"
+
+void redGreen()
+{
+	PORTF = ((1<<0) | (1<<4));
+ 3a6:	81 e1       	ldi	r24, 0x11	; 17
+ 3a8:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
+ 3ac:	08 95       	ret
+
+000003ae <redYellow>:
+}
+
+void redYellow()
+{
+	PORTF = ((1<<0) | (1<<5));
+ 3ae:	81 e2       	ldi	r24, 0x21	; 33
+ 3b0:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
+ 3b4:	08 95       	ret
+
+000003b6 <greenRed>:
+}
+
+void greenRed()
+{
+	PORTF = ((1<<1) | (1<<3));
+ 3b6:	8a e0       	ldi	r24, 0x0A	; 10
+ 3b8:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
+ 3bc:	08 95       	ret
+
+000003be <yellowRed>:
+}
+
+void yellowRed()
+{
+	PORTF = ((1<<2) | (1<<3));
+ 3be:	8c e0       	ldi	r24, 0x0C	; 12
+ 3c0:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__TEXT_REGION_LENGTH__+0x7e0062>
+ 3c4:	08 95       	ret
+
+000003c6 <_exit>:
+ 3c6:	f8 94       	cli
+
+000003c8 <__stop_program>:
+ 3c8:	ff cf       	rjmp	.-2      	; 0x3c8 <__stop_program>

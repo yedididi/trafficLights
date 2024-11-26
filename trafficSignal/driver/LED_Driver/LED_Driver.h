@@ -1,6 +1,13 @@
-﻿/*
- * LED_Driver.h
- *
- * Created: 2024-11-26 오후 2:02:44
- *  Author: IOT
- */ 
+﻿#ifndef LED_DRIVER_H
+#define LED_DRIVER_H
+
+#define F_CPU 16000000UL
+#include <util/delay.h>
+#include <avr/io.h>
+
+void redGreen();
+void redYellow();
+void greenRed();
+void yellowRed();
+
+#endif
